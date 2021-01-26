@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -35,14 +34,17 @@ public class ICanWin {
 
         driver.get("https://pastebin.com");
 
-        pastebinHomePage.inputPasteText("Hello from WebDriver");
+        String pasteText = "Hello from WebDriver";
+        String pasteName = "helloweb";
+
+        pastebinHomePage.inputPasteText(pasteText);
 
         pastebinHomePage.openExpirationDropdown();
 
-        WebElement selectExpiration = driver.findElement(By.xpath("//*[@data-select2-id='select2-postform-expiration-result-ks4k-10M']"));
-        selectExpiration.click();
+        List<WebElement> selectExpiration = driver.findElements(By.xpath("//*[@class='select2-results__option']"));
+        selectExpiration.get(1).click();
 
-        pastebinHomePage.inputPasteName("helloweb");
+        pastebinHomePage.inputPasteName(pasteName);
 
     }
 

@@ -20,6 +20,9 @@ public class GoogleCloudPage {
     @FindBy(xpath = "//*[@name='q']")
     private WebElement searchField;
 
-
+    public void searchTheValue() {
+        searchField.click();
+        searchField.sendKeys("Google Cloud Platform Pricing Calculator");
+    }
 
 }

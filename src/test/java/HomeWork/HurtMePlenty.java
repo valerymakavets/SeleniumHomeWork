@@ -11,25 +11,35 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import page.GoogleCloudPage;
+import page.PastebinHomePage;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HurtMePlenty {
 
     private WebDriver driver;
 
+    public static GoogleCloudPage googleCloudPage;
 
     @BeforeMethod(alwaysRun = true)
     public void browserSetup(){
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        //driver.get("https://cloud.google.com/");
+        googleCloudPage = new GoogleCloudPage(driver);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
     }
 
-    @Test(description = "Name of the test #1")
-    public void searchCalculator() throws InterruptedException {
+    @Test(description = "Name of the test #3")
+    public void searchCalculator() {
+
+        driver.get("https://cloud.google.com/");
+
+        //Открытие поиска и ввод поискового значения
+        googleCloudPage.searchTheValue();
 
         //WebElement clickButton = driver.findElement(By.xpath("//*[@name='q']"));
         //clickButton.click();
@@ -43,15 +53,12 @@ public class HurtMePlenty {
         //new WebDriverWait(driver,10)
         //.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@class='devsite-result-item devsite-nav-label']")));
 
-        //List<WebElement> searchCalculator = driver.findElements(By.xpath("//*[@class='devsite-result-item devsite-nav-label']"));
-        //searchCalculator.get(0).click();
+        List<WebElement> searchCalculator = driver.findElements(By.xpath("//*[@class='devsite-result-item devsite-nav-label']"));
+        searchCalculator.get(0).click();
 
 
-        //WebElement element = driver.findElement(By.linkText("Google Cloud Platform Pricing Calculator"));
-        //element.click();
-
-        driver.get("https://cloud.google.com/products/calculator");
-
+        WebElement GoogleCloudCalculatorLink = driver.findElement(By.linkText("Google Cloud Platform Pricing Calculator"));
+        GoogleCloudCalculatorLink.click();
 
 
         new WebDriverWait(driver,10)
@@ -62,104 +69,83 @@ public class HurtMePlenty {
         //WebElement attachedElement1 = driver.findElement(By.xpath("//*[@id='input_63']"));
         //WebElement shadowRoot1 = (WebElement) ((JavascriptExecutor)driver).executeScript("return arguments[0].shadowRoot", attachedElement1);
 
-
-
-
-
-        WebElement selectNumberOfInstances = driver.findElement(By.xpath("//*[@id='input_63']"));
-        selectNumberOfInstances.click();
-
+        //WebElement selectNumberOfInstances = driver.findElement(By.xpath("//*[@id='input_63']"));
+        //selectNumberOfInstances.click();
 
 
         WebElement numberOfInstancesInput = driver.findElement(By.xpath("//*[@id='input_63']"));
         numberOfInstancesInput.sendKeys("4");
 
 
-
         WebElement openSeries = driver.findElement(By.xpath("//*[@id='select_88']"));
         openSeries.click();
 
-        Thread.sleep(2000);
+        new WebDriverWait(driver,10).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='select_option_188']")));
 
-        WebElement selectN1 = driver.findElement(By.xpath("//*[@value='n1']"));
+        WebElement selectN1 = driver.findElement(By.xpath("//*[@id='select_option_188']"));
         selectN1.click();
 
-        Thread.sleep(2000);
 
         WebElement openMachineType = driver.findElement(By.xpath("//*[@id='select_90']"));
         openMachineType.click();
 
-        Thread.sleep(2000);
+        new WebDriverWait(driver,10).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='select_option_360']")));
 
-        WebElement selectN1Standard8 = driver.findElement(By.xpath("//*[@value='CP-COMPUTEENGINE-VMIMAGE-N1-STANDARD-8']"));
+        WebElement selectN1Standard8 = driver.findElement(By.xpath("//*[@id='select_option_360']"));
         selectN1Standard8.click();
 
-        Thread.sleep(2000);
 
         WebElement selectAddGpuCheckbox = driver.findElement(By.cssSelector("#mainForm>div:nth-child(3)>div>md-card>md-card-content>div>div:nth-child(1)>form>div:nth-child(10)>div.layout-column.flex-gt-sm-90.flex-80>md-input-container>md-checkbox"));
         selectAddGpuCheckbox.click();
 
-        Thread.sleep(2000);
 
         WebElement openNumberOfGpuDropdown = driver.findElement(By.xpath("//*[@id='select_394']"));
         openNumberOfGpuDropdown.click();
 
-        Thread.sleep(2000);
 
         WebElement selectNumberOfGpu1 = driver.findElement(By.xpath("//*[@id='select_option_399']"));
         selectNumberOfGpu1.click();
 
-        Thread.sleep(2000);
 
         WebElement openGpuTypeDropdown = driver.findElement(By.xpath("//*[@id='select_396']"));
         openGpuTypeDropdown.click();
 
-        Thread.sleep(2000);
 
         WebElement selectTeslaV100 = driver.findElement(By.xpath("//*[@id='select_option_406']"));
         selectTeslaV100.click();
 
-        Thread.sleep(2000);
 
         WebElement openLocalSsdDropdown = driver.findElement(By.xpath("//*[@id='select_355']"));
         openLocalSsdDropdown.click();
 
-        Thread.sleep(2000);
 
         WebElement selectSsd2 = driver.findElement(By.xpath("//*[@id='select_option_381']"));
         selectSsd2.click();
-
-        Thread.sleep(2000);
 
 
         WebElement openDatacenterLocationDropdown = driver.findElement(By.xpath("//*[@id='select_92']"));
         openDatacenterLocationDropdown.click();
 
-        Thread.sleep(2000);
-
 
         WebElement selectFrankfurt = driver.findElement(By.xpath("//*[@id='select_option_205']"));
         selectFrankfurt.click();
 
-        Thread.sleep(2000);
 
         WebElement openCommittedUsage = driver.findElement(By.xpath("//*[@id='select_99']"));
         openCommittedUsage.click();
 
-        Thread.sleep(2000);
 
         WebElement select1Year = driver.findElement(By.xpath("//*[@id='select_option_97']"));
         select1Year.click();
 
-        Thread.sleep(2000);
 
         WebElement AddToEstimateButton = driver.findElement(By.cssSelector("#mainForm>div:nth-child(3)>div>md-card>md-card-content>div>div:nth-child(1)>form>div.layout-align-end-start.layout-row>button"));
         AddToEstimateButton.click();
 
-        Thread.sleep(2000);
 
-        new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#compute>md-list>md-list-item:nth-child(4)>div")));
+
+        //new WebDriverWait(driver,10)
+        //.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#compute>md-list>md-list-item:nth-child(4)>div")));
 
         WebElement checkVMClass = driver.findElement(By.cssSelector("#compute>md-list>md-list-item:nth-child(4)>div"));
         WebElement checkInstanceType = driver.findElement(By.cssSelector("#compute>md-list>md-list-item:nth-child(6)>div"));

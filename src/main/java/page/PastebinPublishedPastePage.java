@@ -17,17 +17,22 @@ public class PastebinPublishedPastePage {
     @FindBy(xpath = "//*[@class='info-top']")
     private WebElement pasteNameText;
 
-    @FindBy(xpath = "//*[@class='left']")
+    @FindBy(css = "div.left>a")
     private WebElement syntaxNameText;
 
     @FindBy(xpath = "//*[@class='source']")
     private WebElement pasteInputtedText;
 
     public String getPasteNameText(){
-        pasteNameText.getText();
-        return null;
+        return pasteNameText.getText();
     }
 
+    public String getSyntaxNameText(){
+        return syntaxNameText.getText();
+    }
 
+    public String getPasteInputtedText(){
+        return pasteInputtedText.getText();
+    }
 
 }
