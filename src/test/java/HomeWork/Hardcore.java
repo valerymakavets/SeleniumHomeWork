@@ -2,6 +2,7 @@ package HomeWork;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -10,6 +11,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
 
 
 public class Hardcore {
@@ -163,10 +167,9 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        String checkTotalCost = driver.findElement(By.cssSelector("#compute>md-list>md-list-item:nth-child(14)>div")).getText();
 
-        WebElement EmailEstimateButton = driver.findElement(By.xpath("//*[@id='email_quote']"));
-        EmailEstimateButton.click();
+        String checkTotalCost = driver.findElement(By.cssSelector("#compute>md-list>md-list-item:nth-child(14)>div")).getText();
+        String premiumInCalculator = checkTotalCost.replaceAll("Estimated Component Cost: ","").replaceAll(" per 1 month","");
 
         Thread.sleep(2000);
 
@@ -176,55 +179,76 @@ public class Hardcore {
         ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
 
-
-
-        //driver.findElement(By.xpath("//*[@class='devsite-tabs-wrapper']")).sendKeys(Keys.CONTROL +"t");
-
-
-        //WebElement openNewTab = driver.findElement(By.cssSelector("body"));
-        //openNewTab.sendKeys(Keys.CONTROL + "t");
-
         Thread.sleep(2000);
 
-        driver.get("https://10minutemail.com/");
+        driver.get("https://10minutemail.net/?lang=ru");
 
 
         Thread.sleep(2000);
 
-        String CopyEmail = driver.findElement(By.xpath("//*[@id='copy_address']")).getText();
+        String CopyEmail = driver.findElement(By.xpath("//*[@id='fe_text']")).getAttribute("value");
 
         driver.switchTo().window(tabs.get(0));
 
-        Thread.sleep(2000);
-
-        driver.switchTo().defaultContent();
+        Thread.sleep(1000);
 
         new WebDriverWait(driver,10)
-                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//*[@id='myFrame']")));
+                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("devsite-iframe>iframe")));
 
-        WebElement EmailField = driver.findElement(By.xpath("//*[@id='input_482']"));
+        driver.switchTo().frame(0);
+
+        Thread.sleep(4000);
+
+        WebElement EmailEstimateButton = driver.findElement(By.xpath("//*[@id='email_quote']"));
+        EmailEstimateButton.click();
+
+        Thread.sleep(4000);
+
+        new Actions(driver).moveToElement(driver.findElement(By.xpath("//*[@class='md-dialog-container ng-scope']")));
+
+        Thread.sleep(2000);
+
+        WebElement EmailField = driver.findElement(By.cssSelector("div:nth-child(3)>md-input-container>input"));
+        EmailField.click();
         EmailField.sendKeys(CopyEmail);
 
         Thread.sleep(2000);
 
-        WebElement SendEmailButton = driver.findElement(By.cssSelector("#dialogContent_390>form>md-dialog-actions>button.md-raised.md-primary.cpc-button.md-button.md-ink-ripple"));
+        WebElement SendEmailButton = driver.findElement(By.cssSelector("md-dialog-actions>button.md-raised.md-primary.cpc-button.md-button.md-ink-ripple"));
         SendEmailButton.click();
 
         Thread.sleep(2000);
 
         driver.switchTo().window(tabs.get(1));
 
-        new WebDriverWait(driver,50).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@class='mail_message']")));
+        new WebDriverWait(driver,180).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='Google Cloud Platform Price Estimate']")));
 
-        WebElement OpenEmail = driver.findElement(By.xpath("//*[@class='mail_message']"));
+        Thread.sleep(4000);
+
+        WebElement OpenEmail = driver.findElement(By.xpath("//a[text()='Google Cloud Platform Price Estimate']"));
         OpenEmail.click();
 
         Thread.sleep(2000);
 
-        String PremiumInEmail = driver.findElement(By.cssSelector("#mobilepadding>td>h2")).getText();
+        new WebDriverWait(driver,10)
+                .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("ins>ins>ins>iframe#aswift_4")));
+
+        //driver.switchTo().frame(0);
+
+        WebElement ClosePopUp = driver.findElement(By.cssSelector("#dismiss-button>div>svg>path:nth-child(1)"));
+        ClosePopUp.click();
+
+        driver.switchTo().defaultContent();
+
+        String PremiumInEmail = driver.findElement(By.cssSelector("td:nth-child(2)>h3")).getText();
+
+        System.out.println(PremiumInEmail);
+        System.out.println(premiumInCalculator);
+        System.out.println(CopyEmail);
+
+        Assert.assertTrue(premiumInCalculator.equals(PremiumInEmail),"The Premium in Calculator are not the same as in the email");
 
 
-        Assert.assertTrue(checkTotalCost.contains(PremiumInEmail),"NE MOLODEC6");
 
     }
 
@@ -232,6 +256,7 @@ public class Hardcore {
     public void browserDown(){
         driver.quit();
         driver=null;
+
     }
 
 }
