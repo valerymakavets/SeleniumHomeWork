@@ -246,7 +246,7 @@ public class Hardcore {
         System.out.println(premiumInCalculator);
         System.out.println(CopyEmail);
 
-        Assert.assertTrue(premiumInCalculator.equals(PremiumInEmail),"The Premium in Calculator are not the same as in the email");
+        Assert.assertEquals(premiumInCalculator,PremiumInEmail);
 
 
 
