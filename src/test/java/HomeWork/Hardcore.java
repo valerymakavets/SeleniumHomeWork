@@ -9,58 +9,41 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import page.GoogleCloudPage;
+import page.GoogleCloudPricingCalculatorPage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 
 public class Hardcore {
 
     private WebDriver driver;
 
+    public static GoogleCloudPage googleCloudPage;
+    public static GoogleCloudPricingCalculatorPage googleCloudPricingCalculatorPage;
+
     @BeforeMethod(alwaysRun = true)
     public void browserSetup(){
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        //driver.get("https://cloud.google.com/");
+        googleCloudPage = new GoogleCloudPage(driver);
+        googleCloudPricingCalculatorPage = new GoogleCloudPricingCalculatorPage(driver);
 
     }
 
-    @Test(description = "Name of the test #1")
+    @Test(description = "Name of the test #4")
     public void searchCalculator() throws InterruptedException {
 
-        //WebElement clickButton = driver.findElement(By.xpath("//*[@name='q']"));
-        //clickButton.click();
+        driver.get("https://cloud.google.com/");
 
-        //new WebDriverWait(driver,10)
-        //.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@name='q']")));
+        googleCloudPage.searchTheValue();
 
-        //WebElement searchInput = driver.findElement(By.xpath("//*[@name='q']"));
-        //searchInput.sendKeys("Google Cloud Platform Pricing Calculator");
+        List<WebElement> searchCalculator = driver.findElements(By.xpath("//*[@class='devsite-result-item devsite-nav-label']"));
+        searchCalculator.get(0).click();
 
-        //new WebDriverWait(driver,10)
-        //.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@class='devsite-result-item devsite-nav-label']")));
-
-        //List<WebElement> searchCalculator = driver.findElements(By.xpath("//*[@class='devsite-result-item devsite-nav-label']"));
-        //searchCalculator.get(0).click();
-
-
-        //WebElement element = driver.findElement(By.linkText("Google Cloud Platform Pricing Calculator"));
-        //element.click();
-
-
-
-        driver.get("https://cloud.google.com/products/calculator");
-
-        Thread.sleep(2000);
-
-
-        driver.manage().window().maximize();
-
-        Thread.sleep(2000);
+        WebElement GoogleCloudCalculatorLink = driver.findElement(By.linkText("Google Cloud Platform Pricing Calculator"));
+        GoogleCloudCalculatorLink.click();
 
 
         new WebDriverWait(driver,10)
@@ -68,25 +51,9 @@ public class Hardcore {
 
         driver.switchTo().frame(0);
 
-        //WebElement attachedElement1 = driver.findElement(By.xpath("//*[@id='input_63']"));
-        //WebElement shadowRoot1 = (WebElement) ((JavascriptExecutor)driver).executeScript("return arguments[0].shadowRoot", attachedElement1);
+        googleCloudPricingCalculatorPage.inputTheNumberOfInstances();
 
-
-
-
-
-        WebElement selectNumberOfInstances = driver.findElement(By.xpath("//*[@id='input_63']"));
-        selectNumberOfInstances.click();
-
-
-
-        WebElement numberOfInstancesInput = driver.findElement(By.xpath("//*[@id='input_63']"));
-        numberOfInstancesInput.sendKeys("4");
-
-
-
-        WebElement openSeries = driver.findElement(By.xpath("//*[@id='select_88']"));
-        openSeries.click();
+        googleCloudPricingCalculatorPage.openSeriesDropdown();
 
         Thread.sleep(2000);
 
@@ -95,8 +62,7 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        WebElement openMachineType = driver.findElement(By.xpath("//*[@id='select_90']"));
-        openMachineType.click();
+        googleCloudPricingCalculatorPage.openMachineTypeDropdown();
 
         Thread.sleep(2000);
 
@@ -105,13 +71,9 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        WebElement selectAddGpuCheckbox = driver.findElement(By.cssSelector("#mainForm>div:nth-child(3)>div>md-card>md-card-content>div>div:nth-child(1)>form>div:nth-child(10)>div.layout-column.flex-gt-sm-90.flex-80>md-input-container>md-checkbox"));
-        selectAddGpuCheckbox.click();
+        googleCloudPricingCalculatorPage.selectAddGpuCheckbox();
 
-        Thread.sleep(2000);
-
-        WebElement openNumberOfGpuDropdown = driver.findElement(By.xpath("//*[@id='select_394']"));
-        openNumberOfGpuDropdown.click();
+        googleCloudPricingCalculatorPage.openNumberOfGpuDropdown();
 
         Thread.sleep(2000);
 
@@ -120,8 +82,7 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        WebElement openGpuTypeDropdown = driver.findElement(By.xpath("//*[@id='select_396']"));
-        openGpuTypeDropdown.click();
+        googleCloudPricingCalculatorPage.openGpuTypeDropdown();
 
         Thread.sleep(2000);
 
@@ -130,8 +91,7 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        WebElement openLocalSsdDropdown = driver.findElement(By.xpath("//*[@id='select_355']"));
-        openLocalSsdDropdown.click();
+        googleCloudPricingCalculatorPage.openLocalSsdDropdown();
 
         Thread.sleep(2000);
 
@@ -140,9 +100,7 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-
-        WebElement openDatacenterLocationDropdown = driver.findElement(By.xpath("//*[@id='select_92']"));
-        openDatacenterLocationDropdown.click();
+        googleCloudPricingCalculatorPage.openDatacenterLocationDropdown();
 
         Thread.sleep(2000);
 
@@ -152,8 +110,7 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        WebElement openCommittedUsage = driver.findElement(By.xpath("//*[@id='select_99']"));
-        openCommittedUsage.click();
+        googleCloudPricingCalculatorPage.openCommittedUsageDropdown();
 
         Thread.sleep(2000);
 
@@ -162,8 +119,7 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        WebElement AddToEstimateButton = driver.findElement(By.cssSelector("#mainForm>div:nth-child(3)>div>md-card>md-card-content>div>div:nth-child(1)>form>div.layout-align-end-start.layout-row>button"));
-        AddToEstimateButton.click();
+        googleCloudPricingCalculatorPage.clickAddToEstimateIstancesButton();
 
         Thread.sleep(2000);
 
@@ -173,16 +129,11 @@ public class Hardcore {
 
         Thread.sleep(2000);
 
-        //SWITCH TO EMAIL!!!!!!!!!!!!!
-
         ((JavascriptExecutor)driver).executeScript("window.open()");
         ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
 
-        Thread.sleep(2000);
-
         driver.get("https://10minutemail.net/?lang=ru");
-
 
         Thread.sleep(2000);
 
@@ -190,19 +141,17 @@ public class Hardcore {
 
         driver.switchTo().window(tabs.get(0));
 
-        Thread.sleep(1000);
-
         new WebDriverWait(driver,10)
                 .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("devsite-iframe>iframe")));
 
         driver.switchTo().frame(0);
 
-        Thread.sleep(4000);
+        Thread.sleep(2000);
 
         WebElement EmailEstimateButton = driver.findElement(By.xpath("//*[@id='email_quote']"));
         EmailEstimateButton.click();
 
-        Thread.sleep(4000);
+        Thread.sleep(2000);
 
         new Actions(driver).moveToElement(driver.findElement(By.xpath("//*[@class='md-dialog-container ng-scope']")));
 
@@ -233,8 +182,6 @@ public class Hardcore {
         new WebDriverWait(driver,10)
                 .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("ins>ins>ins>iframe#aswift_4")));
 
-        //driver.switchTo().frame(0);
-
         WebElement ClosePopUp = driver.findElement(By.cssSelector("#dismiss-button>div>svg>path:nth-child(1)"));
         ClosePopUp.click();
 
@@ -242,21 +189,17 @@ public class Hardcore {
 
         String PremiumInEmail = driver.findElement(By.cssSelector("td:nth-child(2)>h3")).getText();
 
+        System.out.println(CopyEmail);
         System.out.println(PremiumInEmail);
         System.out.println(premiumInCalculator);
-        System.out.println(CopyEmail);
 
         Assert.assertEquals(premiumInCalculator,PremiumInEmail);
-
-
-
     }
 
     @AfterMethod(alwaysRun = true)
     public void browserDown(){
         driver.quit();
         driver=null;
-
     }
 
 }
