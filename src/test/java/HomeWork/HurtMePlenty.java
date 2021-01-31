@@ -124,7 +124,7 @@ public class HurtMePlenty {
         Assert.assertTrue(checkRegion.getText().contains("Frankfurt"),"Not Frankfurt");
         Assert.assertTrue(checkLocalSsd.getText().contains("2x375"),"Not 2x375");
         Assert.assertTrue(checkCommitmentTerm.getText().contains("1 Year"),"Not 1 Year");
-        Assert.assertTrue(checkTotalCost.getText().contains("1 Year"),"Not 1 Year");
+        Assert.assertTrue(checkTotalCost.getText().contains("1,082.77"),"Not 1,082.77");
 
     }
 
