@@ -13,6 +13,7 @@ import page.GoogleCloudPage;
 import page.GoogleCloudPricingCalculatorPage;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class Hardcore {
@@ -29,7 +30,7 @@ public class Hardcore {
         driver.manage().window().maximize();
         googleCloudPage = new GoogleCloudPage(driver);
         googleCloudPricingCalculatorPage = new GoogleCloudPricingCalculatorPage(driver);
-
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test(description = "Name of the test #4")
